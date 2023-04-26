@@ -1,5 +1,6 @@
 import { SHAPES } from "../../utils.js";
 export default class Game extends Phaser.Scene {
+  score;
   constructor() {
     super("Game");
   }
@@ -53,7 +54,7 @@ export default class Game extends Phaser.Scene {
       callback,
     });
 
-    //add oerlap between player and shapes
+    //add overlap between player and shapes
     this.physics.add.overlap(
       this.player,
       this.shapesGroup,
@@ -61,7 +62,13 @@ export default class Game extends Phaser.Scene {
       null,//dejar fijo por ahora
       this//dejar fijo por ahora
     );
-  
+  //add score on scene
+  this.score=0;
+  this.scoreText=this.add.text(20,29, "Score"+ this.score,{
+    fontsize: "32px",
+    fontstyle:"bold",
+    fill:"#FFFFFF",
+  });
   }
   update() {
     //check if not game over or win
@@ -86,12 +93,18 @@ export default class Game extends Phaser.Scene {
     this.shapesGroup.create(randomX, 0, random);
   }
 
-collectShape(player,shape);{
+  collectShape(player,shape);
+  {
   //remove shape from screen
   shape.disableBody(true,true);
-  this.score+=this.shapesRecolected
+
   const shapeName=shape.texture.key;
   this.shapesRecolected[shapeName].count++;
-  console.log(this.shapes)
+
+  this.score+=this.shapesRecolected[shapeName].score;
+  console.log(this.shapesRecolected[shapeName].score)
+  this.scoreText.setText("Score: ${this.score.toString()}");
+  
+  console.log(this.shapesRecolected); 
   }
 }
