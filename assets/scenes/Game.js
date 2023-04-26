@@ -5,9 +5,9 @@ export default class Game extends Phaser.Scene {
   }
   init(){ 
     this.shapesRecolected;{
-      [TRIANGLE];{count:0,score:10};
-      [SQUARE];{count:0,score:20};
-      [Diamond];{count:0, score:30}  ;}
+      [TRIANGLE]:{count:0,score:10},
+      [SQUARE]:{count:0,score:20},
+      [Diamond]:{count:0, score:30}  ;}
     console.log(this.shapesRecolected)
   }
 
@@ -61,6 +61,7 @@ export default class Game extends Phaser.Scene {
       null,//dejar fijo por ahora
       this//dejar fijo por ahora
     );
+  
   }
   update() {
     //check if not game over or win
@@ -84,11 +85,13 @@ export default class Game extends Phaser.Scene {
     //add shape to screen
     this.shapesGroup.create(randomX, 0, random);
   }
-}
+
 collectShape(player,shape);{
   //remove shape from screen
   shape.disableBody(true,true);
+  this.score+=this.shapesRecolected
   const shapeName=shape.texture.key;
   this.shapesRecolected[shapeName].count++;
   console.log(this.shapes)
+  }
 }
