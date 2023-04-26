@@ -1,8 +1,16 @@
+import { SHAPES } from "../../utils.js";
 export default class Game extends Phaser.Scene {
   constructor() {
     super("Game");
   }
-  init() {}
+  init(){ 
+    this.shapesRecolected;{
+      [TRIANGLE];{count:0,score:10};
+      [SQUARE];{count:0,score:20};
+      [Diamond];{count:0, score:30}  ;}
+    console.log(this.shapesRecolected)
+  }
+
   preload() {
     this.load.image("background", "./assets/images/fondo.png");
     this.load.image("platform", "./assets/images/platform.png");
@@ -44,6 +52,15 @@ export default class Game extends Phaser.Scene {
       callback: this.addShape,
       callback,
     });
+
+    //add oerlap between player and shapes
+    this.physics.add.overlap(
+      this.player,
+      this.shapesGroup,
+      this.collectShape,//funcion que llama cuando player choca con shape
+      null,//dejar fijo por ahora
+      this//dejar fijo por ahora
+    );
   }
   update() {
     //check if not game over or win
@@ -67,4 +84,11 @@ export default class Game extends Phaser.Scene {
     //add shape to screen
     this.shapesGroup.create(randomX, 0, random);
   }
+}
+collectShape(player,shape);{
+  //remove shape from screen
+  shape.disableBody(true,true);
+  const shapeName=shape.texture.key;
+  this.shapesRecolected[shapeName].count++;
+  console.log(this.shapes)
 }
