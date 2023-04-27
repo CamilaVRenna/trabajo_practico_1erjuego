@@ -1,20 +1,20 @@
-import Game from "/assets/scenes/Game.js";
+import Game from "../assets/scenes/game.js";
 
 // Create a new Phaser config object
 const config = {
   type: Phaser.AUTO,
-  width: 1920,
-  height: 1080,
+  width: 800,
+  height: 600,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     min: {
-      width: 1920,
-      height: 1080,
+      width: 800,
+      height: 600,
     },
     max: {
-      width: 1920,
-      height: 1080,
+      width: 1600,
+      height: 1200,
     },
   },
   physics: {

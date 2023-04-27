@@ -1,110 +1,82 @@
-import { SHAPES } from "../../utils.js";
 export default class Game extends Phaser.Scene {
-  score;
   constructor() {
-    super("Game");
-  }
-  init(){ 
-    this.shapesRecolected;{
-      [TRIANGLE]:{count:0,score:10},
-      [SQUARE]:{count:0,score:20},
-      [Diamond]:{count:0, score:30}  ;}
-    console.log(this.shapesRecolected)
+    super("game");
   }
 
+  Init() {}
+
   preload() {
-    this.load.image("background", "./assets/images/fondo.png");
-    this.load.image("platform", "./assets/images/platform.png");
-    this.load.image("witch", "./assets/images/witch.png");
-    this.load.image("square", "./assets/images/square.png");
-    this.load.image("diamond", "./assets/images/diamond.png");
-    this.load.image("triangle", "./assets/images/triangle.png");
-    this.load.image("candy", "./assets/images/candy.png");
-    this.load.image("ghost", "./assets/images/ghost.png");
+    this.load.image("sky", "./assets/images/sky.png");
+    this.load.image("platform", "../assets/images/platform.png");
+    this.load.image("ninja", "../assets/images/ninja.png");
+    this.load.image("square", "../assets/images/square.png");
+    this.load.image("diamond", "../assets/images/diamond.png");
+    this.load.image("triangle", "../assets/images/triangle.png");
   }
 
   create() {
     //add background
-    this.add.image(950, 540, "background");
+    this.add.image(400, 300, "sky").setScale(0.555);
 
-    //add static plataforms group
-    let platform = this.physics.add.staticGroup();
-    platform.create(500, 78, "platform");
+    //add static platforms
+    let platforms = this.physics.add.staticGroup();
+    platforms.create(400, 568, "platform").setScale(2).refreshBody();
 
-    //add sprite player
-    this.player = this.physics.add.sprite(100, 450, "witch");
-    this.player.setCollideWorldBounds(true);
-
-    //add shapes groups
+    //add shapes
     this.shapesGroup = this.physics.add.group();
-    this.shapesGroup.create(100, 0, "diamond");
-    this.shapesGroup.create(200, 0, "square");
-    this.shapesGroup.create(300, 0, "triangle");
-
-    //create cursors{
-    this.cursors = this.InputDeviceInfo.keyboard.createCursorsKeys();
-    //add collider between player and plattforms}
-    this.physics.add.collider(this.player, platforms);
-    this.physics.add.collider(platforms, this, shapesGroup);
-    this.physics.add.collider(platforms, this.shapesGroup);
-
+    // this.shapesGroup.create(100, 0, "square");
+    // this.shapesGroup.create(200, 0, "diamond");
+    // this.shapesGroup.create(300, 0, "triangle");
+    //create event to add shapes
     this.time.addEvent({
       delay: 1500,
       callback: this.addShape,
-      callback,
+      callbackScope: this,
+      loop: true,
     });
 
+    //add player
+    this.player = this.physics.add.sprite(100, 450, "ninja");
+    this.player.setCollideWorldBounds(true);
+
+    //create cursor
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+    //add collider between player and platforms
+    //add collider between player and shapes
     //add overlap between player and shapes
-    this.physics.add.overlap(
-      this.player,
-      this.shapesGroup,
-      this.collectShape,//funcion que llama cuando player choca con shape
-      null,//dejar fijo por ahora
-      this//dejar fijo por ahora
-    );
-  //add score on scene
-  this.score=0;
-  this.scoreText=this.add.text(20,29, "Score"+ this.score,{
-    fontsize: "32px",
-    fontstyle:"bold",
-    fill:"#FFFFFF",
-  });
+    this.physics.add.collider(this.player, platforms);
+    this.physics.add.collider(this.player, this.shapesGroup);
+    this.physics.add.collider(platforms, this.shapesGroup);
+    this.physics.add.collider(this.shapesGroup, this.shapesGroup);
   }
+
   update() {
-    //check if not game over or win
-    //update player movement
+    //Move player
     if (this.cursors.left.isDown) {
-      this.player.setVelocity(-250);
+      this.player.setVelocityX(-250);
     } else {
       if (this.cursors.right.isDown) {
         this.player.setVelocityX(250);
       } else {
         this.player.setVelocityX(0);
       }
+
+      //player jump
+      if (this.cursors.up.isDown && this.player.body.touching.down) {
+        this.player.setVelocityY(-330);
+      }
     }
   }
 
   addShape() {
-    //get a random shape
-    const randomshape = Phaser.Math.RND.pick(["diamond", "triangle", "square"]);
-    //get random positionx
+    //get random shape
+    const randomShape = Phaser.Math.RND.pick(["diamond", "square", "triangle"]);
+
+    //get random position x
     const randomX = Phaser.Math.RND.between(0, 800);
-    //add shape to screen
-    this.shapesGroup.create(randomX, 0, random);
-  }
 
-  collectShape(player,shape);
-  {
-  //remove shape from screen
-  shape.disableBody(true,true);
-
-  const shapeName=shape.texture.key;
-  this.shapesRecolected[shapeName].count++;
-
-  this.score+=this.shapesRecolected[shapeName].score;
-  console.log(this.shapesRecolected[shapeName].score)
-  this.scoreText.setText("Score: ${this.score.toString()}");
-  
-  console.log(this.shapesRecolected); 
+    //get shape to screen
+    this.shapesGroup.create(randomX, 0, randomShape);
   }
 }
