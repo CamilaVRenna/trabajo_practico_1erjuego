@@ -24,7 +24,6 @@ export default class Game extends Phaser.Scene {
     //add static platforms
     let platforms = this.physics.add.staticGroup();
     platforms.create(400, 568, "platform").setScale(2).refreshBody();
-    platforms.create(-200, 400, "platform2").setScale(2).refreshBody();
 
     //add shapes
     this.shapesGroup = this.physics.add.group();
