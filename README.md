@@ -1,4 +1,6 @@
-# Phaser 3 Template
+TRABAJO PRACTICO
+primer videojuego
+Ninja Moncho:  https://camilavrenna.github.io/trabajo_practico_1erjuego/
 
 Plantilla para iniciar nuevos proyectos con PHASER 3.
 
