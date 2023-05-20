@@ -1,6 +1,6 @@
 import Game from "./assets/scenes/Game.js";
 import Preload from "./assets/scenes/Preload.js";
-import Win from "./aWin.js";
+import Win from "./assets/scenes/Win.js";
 import GameOver from "./assets/scenes/GameOver.js"
 // Create a new Phaser config object
 const config = {
