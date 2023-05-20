@@ -1,3 +1,4 @@
+export default class GameOver extends Phaser.Scene {
 constructor() {
     super("GameOver");
   }
@@ -7,3 +8,4 @@ constructor() {
     this.add.image(400, 300, "gameOver");
   }
 
+}
